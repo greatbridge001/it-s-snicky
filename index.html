@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>So… Snicky 👀</title>
+<title>So… Nic 👀</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -128,6 +128,25 @@
   .progress .dot.active{ background: var(--accent); width: 20px; border-radius: 6px; }
   .progress .dot.done{ background: var(--accent-3); }
 
+  /* ---------- Music toggle ---------- */
+  .music-btn{
+    position: fixed;
+    top: max(14px, env(safe-area-inset-top));
+    right: max(14px, env(safe-area-inset-right));
+    z-index: 8;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(24,15,43,0.6);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
   .card-wrap{
     width: 100%;
     max-width: min(480px, 94vw);
@@ -180,6 +199,7 @@
     color: var(--muted);
     max-width: 340px;
     line-height: 1.5;
+    margin: 0;
   }
 
   .question{
@@ -237,11 +257,11 @@
   .polaroid.tilt-right{ transform: rotate(5deg); }
   .polaroid.tilt-right:hover{ transform: rotate(2deg) scale(1.02); }
 
-  /* ---------- Buttons / dodge zone ---------- */
+  /* ---------- Buttons ---------- */
   .choice-zone{
     position: relative;
     width: 100%;
-    min-height: 170px;
+    min-height: 0;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -272,6 +292,10 @@
     touch-action: manipulation;
     min-height: 48px;
     white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn-yes{
@@ -290,34 +314,12 @@
 
   .btn-no{
     background: var(--no-btn);
-    color: var(--muted);
-    position: relative;
-    z-index: 3;
-    touch-action: none;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.12);
   }
-  .btn-no.roaming{
-    position: absolute;
-    transition: left 0.32s cubic-bezier(.34,1.56,.64,1), top 0.32s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  .arrow-hint{
-    position: absolute;
-    font-size: 22px;
-    opacity: 0;
-    transform: translate(-8px, 0);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    pointer-events: none;
-  }
-  .arrow-hint.show{
-    opacity: 1;
-    animation: bounceArrow 0.9s ease infinite;
-  }
-  @keyframes bounceArrow{
-    0%,100%{ transform: translateX(0); }
-    50%{ transform: translateX(-6px); }
-  }
-
-  /* ---------- Slider (menace scale) ---------- */
+  .btn-no:hover{ transform: translateY(-2px) scale(1.03); background: var(--surface-2); }
+  .btn-no:active{ transform: translateY(0) scale(0.97); }
+  /* ---------- Slider ---------- */
   .slider-wrap{
     width: 100%;
     max-width: min(320px, 92vw);
@@ -373,6 +375,7 @@
   }
   .btn-continue:hover{ transform: translateY(-2px) scale(1.03); }
 
+  /* ---------- Multiple choice ---------- */
   .mc-options{
     display: flex;
     flex-direction: column;
@@ -384,10 +387,12 @@
     background: var(--surface);
     color: var(--text);
     border: 1px solid rgba(255,255,255,0.1);
+    justify-content: flex-start;
     text-align: left;
     padding: 14px 20px;
     font-size: 15px;
     width: 100%;
+    white-space: normal;
   }
   .btn-mc:hover{
     background: var(--surface-2);
@@ -400,6 +405,32 @@
     border-color: transparent;
   }
   .btn-mc:disabled{ cursor: default; }
+
+  /* ---------- Terms & conditions textarea ---------- */
+  .tc-wrap{
+    width: 100%;
+    max-width: min(340px, 92vw);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tc-area{
+    width: 100%;
+    min-height: 140px;
+    resize: vertical;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px; /* 16px stops iOS zoom on focus */
+    line-height: 1.5;
+    outline: none;
+  }
+  .tc-area::placeholder{ color: rgba(182,166,217,0.6); }
+  .tc-area:focus{ border-color: rgba(255,209,102,0.55); box-shadow: 0 0 0 3px var(--ring); }
+  .tc-count{ font-size: 12px; color: var(--muted); text-align: right; margin-top: -8px; }
 
   .site-credit{
     font-size: 12px;
@@ -416,6 +447,13 @@
     padding: 16px 32px;
   }
   .btn-start:hover{ transform: translateY(-2px) scale(1.03); }
+
+  .btn-wa{
+    background: linear-gradient(135deg, #5BE08B, #2FBF68);
+    color: #0E2A18;
+    box-shadow: 0 10px 26px rgba(47,191,104,0.28);
+  }
+  .btn-wa:hover{ transform: translateY(-2px) scale(1.03); }
 
   /* ---------- Closing ---------- */
   .final-badge{
@@ -445,7 +483,6 @@
   }
 
   @media (max-width: 380px){
-    .choice-zone{ min-height: 190px; }
     .btn{ font-size: 14.5px; padding: 12px 18px; }
     .headline{ font-size: clamp(24px, 8vw, 32px); }
     .question{ font-size: clamp(19px, 6.5vw, 24px); }
@@ -462,7 +499,6 @@
     .stage{ padding-top: max(70px, env(safe-area-inset-top)); justify-content: flex-start; }
     .screen{ gap: 14px; }
     .polaroid{ width: min(150px, 46vw); padding: 8px 8px 24px; }
-    .choice-zone{ min-height: 130px; }
   }
 
   @media (min-width: 700px){
@@ -473,13 +509,23 @@
   }
 
   @media (hover: none){
-    .polaroid:hover, .btn-yes:hover, .btn-continue:hover, .btn-start:hover, .btn-mc:hover{
+    .polaroid:hover, .btn-yes:hover, .btn-no:hover, .btn-continue:hover, .btn-start:hover, .btn-mc:hover, .btn-wa:hover{
       transform: none;
     }
   }
 </style>
 </head>
 <body>
+
+<!-- ============================================================
+     BACKGROUND SONG
+     Put your song in the "music" folder and name it: song.mp3
+     (or change the file name in the src below).
+     ============================================================ -->
+<audio id="bgSong" loop preload="auto">
+  <source src="music\Lionel Richie - I Call It Love (Official Music Video).mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" id="musicBtn" aria-label="Toggle music" title="Music on/off">🔊</button>
 
 <div class="bg-scene">
   <div class="blob b1"></div>
@@ -497,51 +543,36 @@
 
     <!-- 0: LANDING -->
     <section class="screen active" data-screen="0">
-      <span class="eyebrow-tag">confidential 🔒</span>
+      <span class="eyebrow-tag">just between us 🔒</span>
       <div class="polaroid tilt-left">
         <div class="tape"></div>
-        <img src="photos\photo1.jpg" alt="photos\photo1.jpg">
+        <img src="photos/photo1.jpg" alt="Exhibit A">
         <div class="cap">exhibit A</div>
       </div>
-      <h1 class="headline">So… Snicky 👀</h1>
-      <p class="subtext">Someone snitched. This is a formal investigation.<br>You've been named a person of interest.</p>
+      <h1 class="headline">So… Nic 👀</h1>
+      <p class="subtext">A few honest questions. No pressure, just curious.<br>Answer however you really feel.</p>
       <button class="btn btn-start" data-next>I'm listening →</button>
     </section>
 
-    <!-- 1: Q1 -->
+    <!-- 1 -->
     <section class="screen" data-screen="1">
       <span class="eyebrow-tag">question 01</span>
-      <h2 class="question">Did you actually have a good time earlier, or were you just being polite?</h2>
+      <h2 class="question">We've been talking for a while now. Are you enjoying it?</h2>
       <div class="reply-line" data-reply></div>
       <div class="choice-zone" data-zone>
         <div class="choice-row" data-row>
-          <button class="btn btn-yes" data-yes>Actually good time</button>
-          <button class="btn btn-no" data-no>Just being polite</button>
-          <span class="arrow-hint" data-arrow>👉</span>
+          <button class="btn btn-yes" data-yes>Yeah, I am</button>
+          <button class="btn btn-no" data-no>Not really</button>
         </div>
       </div>
     </section>
 
-    <!-- 2: Q2 -->
+    <!-- 2: photo -->
     <section class="screen" data-screen="2">
-      <span class="eyebrow-tag">question 02</span>
-      <h2 class="question">Be honest — was I at least a little fun to be around today?</h2>
-      <div class="reply-line" data-reply></div>
-      <div class="choice-zone" data-zone>
-        <div class="choice-row" data-row>
-          <button class="btn btn-yes" data-yes>Yes</button>
-          <button class="btn btn-no" data-no>No</button>
-          <span class="arrow-hint" data-arrow>👉</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3: Q3 photo rate -->
-    <section class="screen" data-screen="3">
-      <span class="eyebrow-tag">question 03 · exhibit B</span>
+      <span class="eyebrow-tag">question 02 · exhibit B</span>
       <div class="polaroid tilt-right">
         <div class="tape"></div>
-        <img src="photos\photo2.jpg" alt="">
+        <img src="photos/photo2.jpg" alt="Exhibit B">
         <div class="cap">exhibit B</div>
       </div>
       <h2 class="question">Rate this photo. You only get one honest option.</h2>
@@ -550,92 +581,125 @@
         <div class="choice-row" data-row>
           <button class="btn btn-yes" data-yes>Cute</button>
           <button class="btn btn-no" data-no>Meh</button>
-          <span class="arrow-hint" data-arrow>👉</span>
         </div>
       </div>
     </section>
 
-    <!-- 4: Q4 -->
-    <section class="screen" data-screen="4">
-      <span class="eyebrow-tag">question 04</span>
-      <h2 class="question">Are you more trouble than you look?</h2>
-      <div class="reply-line" data-reply></div>
-      <div class="choice-zone" data-zone>
-        <div class="choice-row" data-row>
-          <button class="btn btn-yes" data-yes>No</button>
-          <button class="btn btn-no" data-no>Yes</button>
-          <span class="arrow-hint" data-arrow>👉</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5: Q5 slider -->
-    <section class="screen" data-screen="5">
-      <span class="eyebrow-tag">question 05</span>
-      <h2 class="question">On a scale of 1–10, how much of a menace are you?</h2>
+    <!-- 3: slider -->
+    <section class="screen" data-screen="3">
+      <span class="eyebrow-tag">question 03</span>
+      <h2 class="question">On a scale of 1–10, how would you rate our conversations so far?</h2>
       <div class="slider-wrap">
         <div class="slider-value" id="sliderValue">5</div>
-        <div class="slider-face" id="sliderFace">Undecided energy</div>
-        <input type="range" min="1" max="10" value="5" id="menaceSlider">
+        <div class="slider-face" id="sliderFace">Okay.</div>
+        <input type="range" min="1" max="10" value="5" id="rateSlider">
         <div class="slider-labels">
-          <span>Harmless 😇</span>
-          <span>Certified chaos 😈</span>
+          <span>Forgettable</span>
+          <span>Really good</span>
         </div>
       </div>
-      <button class="btn btn-continue" data-next>Lock it in</button>
+      <button class="btn btn-continue" id="lockBtn">Lock it in</button>
     </section>
 
-    <!-- 6: Q6 -->
-    <section class="screen" data-screen="6">
-      <span class="eyebrow-tag">question 06</span>
-      <h2 class="question">Promise you won't leave me on read?</h2>
-      <div class="reply-line" data-reply></div>
-      <div class="choice-zone" data-zone>
-        <div class="choice-row" data-row>
-          <button class="btn btn-yes" data-yes>I promise</button>
-          <button class="btn btn-no" data-no>No promises</button>
-          <span class="arrow-hint" data-arrow>👉</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7: Q7 pivot -->
-    <section class="screen" data-screen="7">
-      <span class="eyebrow-tag">question 07 · real talk</span>
-      <h2 class="question">Okay real talk — do you think we'd vibe?</h2>
-      <div class="reply-line" data-reply></div>
-      <div class="choice-zone" data-zone>
-        <div class="choice-row" data-row>
-          <button class="btn btn-yes" data-yes>Yeah, probably</button>
-          <button class="btn btn-no" data-no>No</button>
-          <span class="arrow-hint" data-arrow>👉</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8: Q8 closer -->
-    <section class="screen" data-screen="8">
-      <span class="eyebrow-tag">final question</span>
-      <h2 class="question">First things first… what did you think of me when we first met?</h2>
+    <!-- 4: multiple choice -->
+    <section class="screen" data-screen="4">
+      <span class="eyebrow-tag">question 04</span>
+      <h2 class="question">What matters most to you in someone you're getting to know?</h2>
       <div class="reply-line" data-reply></div>
       <div class="mc-options" data-mc>
-        <button class="btn btn-mc" data-choice="interesting">Interesting guy</button>
-        <button class="btn btn-mc" data-choice="funny">Funny guy</button>
-        <button class="btn btn-mc" data-choice="weird">Slightly weird 😂</button>
-        <button class="btn btn-mc" data-choice="evidence">Still collecting evidence</button>
+        <button class="btn btn-mc" data-r="Good answer. Hard to argue with that.">Honesty</button>
+        <button class="btn btn-mc" data-r="Noted. I'll keep the jokes coming.">Humor</button>
+        <button class="btn btn-mc" data-r="Underrated. Respect.">Consistency</button>
+        <button class="btn btn-mc" data-r="Effort speaks louder than words. Agreed.">Effort</button>
       </div>
     </section>
 
-    <!-- 9: CLOSING -->
+    <!-- 5: focus -->
+    <section class="screen" data-screen="5">
+      <span class="eyebrow-tag">question 05</span>
+      <h2 class="question">What are you most focused on right now?</h2>
+      <div class="reply-line" data-reply></div>
+      <div class="mc-options" data-mc>
+        <button class="btn btn-mc" data-r="Good focus. That takes discipline.">My career or studies</button>
+        <button class="btn btn-mc" data-r="Builder energy. I respect that.">Making money and building something</button>
+        <button class="btn btn-mc" data-r="That says a lot about you.">My family</button>
+        <button class="btn btn-mc" data-r="Best kind of project.">Growing as a person</button>
+      </div>
+    </section>
+
+    <!-- 6: goal (text) -->
+    <section class="screen" data-screen="6">
+      <span class="eyebrow-tag">question 06</span>
+      <h2 class="question">What's one goal you're working toward this year?</h2>
+      <p class="subtext">Tell me, I'm curious.</p>
+      <div class="tc-wrap">
+        <textarea class="tc-area" id="goalText" maxlength="400" placeholder="This year I'm working toward…"></textarea>
+        <button class="btn btn-continue" id="goalBtn">Continue →</button>
+      </div>
+    </section>
+
+    <!-- 7: what she needs from people -->
+    <section class="screen" data-screen="7">
+      <span class="eyebrow-tag">question 07</span>
+      <h2 class="question">What do you need most from the people in your life right now?</h2>
+      <div class="reply-line" data-reply></div>
+      <div class="mc-options" data-mc>
+        <button class="btn btn-mc" data-r="Fair. Everyone needs that.">Support</button>
+        <button class="btn btn-mc" data-r="Understood. Space is healthy.">Space</button>
+        <button class="btn btn-mc" data-r="Noted. Honesty it is.">Honesty</button>
+        <button class="btn btn-mc" data-r="Good. Life's too short not to.">Fun and laughter</button>
+      </div>
+    </section>
+
+    <!-- 8: cheeky relationship status -->
+    <section class="screen" data-screen="8">
+      <span class="eyebrow-tag">question 08 · cheeky</span>
+      <h2 class="question">Cheeky question, but I'd rather ask than assume: are you seeing anyone? 👀</h2>
+      <div class="reply-line" data-reply></div>
+      <div class="mc-options" data-mc>
+        <button class="btn btn-mc" data-r="Noted. Interesting 👀">Nope, I'm single</button>
+        <button class="btn btn-mc" data-r="Respect for the honesty.">Yes, I'm seeing someone</button>
+        <button class="btn btn-mc" data-r="Okay. No follow-up questions. Yet.">It's complicated</button>
+        <button class="btn btn-mc" data-r="Mysterious. I like it.">That's classified 🤐</button>
+      </div>
+    </section>
+
+    <!-- 9: friends or something -->
     <section class="screen" data-screen="9">
-      <div class="final-badge">🔍</div>
-      <h1 class="headline">Investigation closed.</h1>
-      <p class="subtext">Verdict: guilty of being interesting.</p>
-      <p class="subtext" style="margin-top:-10px; font-weight:700; color: var(--text);">Congratulations.<br>You are now officially stuck with me. 😂❤️</p>
+      <span class="eyebrow-tag">question 09 · real talk</span>
+      <h2 class="question">So… can we be friends? Or something more? 😏</h2>
+      <div class="reply-line" data-reply></div>
+      <div class="mc-options" data-mc>
+        <button class="btn btn-mc" data-r="Friends is a solid start 🤝">Friends, for now 🤝</button>
+        <button class="btn btn-mc" data-r="Now we're talking 👀">Friends, with potential 👀</button>
+        <button class="btn btn-mc" data-r="Bold. I respect it 😏">Something more 😏</button>
+        <button class="btn btn-mc" data-r="Fair. Take your time.">I need to think 🤔</button>
+      </div>
+    </section>
+
+    <!-- 10: terms and conditions -->
+    <section class="screen" data-screen="10">
+      <span class="eyebrow-tag">last one 📜</span>
+      <h2 class="question">What are your terms and conditions?</h2>
+      <p class="subtext">Say it however you feel. Be honest, this is your space.</p>
+      <div class="tc-wrap">
+        <textarea class="tc-area" id="tcText" maxlength="600" placeholder="My terms and conditions are…"></textarea>
+        <div class="tc-count"><span id="tcCount">0</span>/600</div>
+        <button class="btn btn-wa" id="sendBtn">Send my answers 💬</button>
+      </div>
+    </section>
+
+    <!-- 11: CLOSING -->
+    <section class="screen" data-screen="11">
+      <div class="final-badge">💬</div>
+      <h1 class="headline">Thanks for being honest.</h1>
+      <p class="subtext">I enjoyed this, and I'm glad I asked.</p>
+      <p class="subtext" style="font-weight:700; color: var(--text);">Your answers are ready in WhatsApp. Just press send. 😊</p>
+      <a class="btn btn-wa" id="waLink" href="#" target="_blank" rel="noopener">Didn't open? Tap here</a>
       <div class="polaroid tilt-left" style="width:170px;">
         <div class="tape"></div>
-        <img src="photos\photo2.jpg" alt="">
-        <div class="cap">case closed</div>
+        <img src="photos/photo2.jpg" alt="">
+        <div class="cap">good answers</div>
       </div>
       <p class="site-credit">Developed by Abednego</p>
     </section>
@@ -647,41 +711,77 @@
 
 <script>
 (function(){
+  /* ============ SETTINGS ============ */
+  const WHATSAPP_NUMBER = "254769642043";   // 0769642043 in international format
+
+  /* ============ MUSIC ============ */
+  const song = document.getElementById('bgSong');
+  const musicBtn = document.getElementById('musicBtn');
+  song.volume = 0.7;
+
+  function refreshMusicIcon(){ musicBtn.textContent = song.paused ? '🔇' : '🔊'; }
+  song.addEventListener('play', refreshMusicIcon);
+  song.addEventListener('pause', refreshMusicIcon);
+  refreshMusicIcon();
+
+  // hide the button if the song file is missing
+  const srcEl = song.querySelector('source');
+  if (srcEl) srcEl.addEventListener('error', () => { musicBtn.style.display = 'none'; });
+
+  let musicStarted = false;
+  function startMusic(){
+    if (musicStarted) return;
+    const p = song.play();
+    if (p && p.then){
+      p.then(() => { musicStarted = true; }).catch(() => {});
+    }
+  }
+  // try immediately (works on some browsers), otherwise on the very first tap/click/key
+  startMusic();
+  ['pointerdown','touchstart','keydown','click'].forEach(evt => {
+    document.addEventListener(evt, (e) => {
+      if (musicStarted) return;
+      if (e.target && e.target.closest && e.target.closest('#musicBtn')) return;
+      startMusic();
+    }, {passive: true});
+  });
+  musicBtn.addEventListener('click', () => {
+    if (song.paused){ song.play().then(() => { musicStarted = true; }).catch(()=>{}); }
+    else { song.pause(); musicStarted = true; } // user chose to mute: don't force it back on
+  });
+
+  /* ============ SCREENS / PROGRESS ============ */
   const screens = Array.from(document.querySelectorAll('.screen'));
-  const totalSteps = screens.length - 1; // excluding closing screen from dot count could vary; we'll count all
   const progressWrap = document.getElementById('progressDots');
+  const FIRST_Q = 1, LAST_Q = 10, CLOSING = 11;
   let current = 0;
 
-  // build progress dots (skip landing screen 0 and closing screen as dots represent Q1..Q8)
-  const questionScreens = screens.filter(s => {
-    const idx = parseInt(s.dataset.screen, 10);
-    return idx >= 1 && idx <= 8;
-  });
-  questionScreens.forEach((s, i) => {
+  for (let i = FIRST_Q; i <= LAST_Q; i++){
     const dot = document.createElement('span');
     dot.className = 'dot';
-    dot.dataset.forIndex = s.dataset.screen;
+    dot.dataset.forIndex = i;
     progressWrap.appendChild(dot);
-  });
-
-  function updateDots(activeScreenIndex){
-    const dots = Array.from(progressWrap.children);
-    dots.forEach(d => {
-      const forIdx = parseInt(d.dataset.forIndex, 10);
-      d.classList.remove('active','done');
-      if (forIdx === activeScreenIndex) d.classList.add('active');
-      else if (forIdx < activeScreenIndex && forIdx >= 1) d.classList.add('done');
-    });
-    progressWrap.style.display = (activeScreenIndex >= 1 && activeScreenIndex <= 8) ? 'flex' : 'none';
   }
 
+  function updateDots(activeIdx){
+    Array.from(progressWrap.children).forEach(d => {
+      const f = parseInt(d.dataset.forIndex, 10);
+      d.classList.remove('active','done');
+      if (f === activeIdx) d.classList.add('active');
+      else if (f < activeIdx) d.classList.add('done');
+    });
+    progressWrap.style.display = (activeIdx >= FIRST_Q && activeIdx <= LAST_Q) ? 'flex' : 'none';
+  }
+
+  function getScreen(i){ return screens.find(s => parseInt(s.dataset.screen,10) === i); }
+
   function goTo(index){
-    const currentScreen = screens.find(s => parseInt(s.dataset.screen,10) === current);
-    const nextScreen = screens.find(s => parseInt(s.dataset.screen,10) === index);
+    const currentScreen = getScreen(current);
+    const nextScreen = getScreen(index);
     if (!nextScreen) return;
     if (currentScreen){
       currentScreen.classList.add('leaving');
-      setTimeout(()=>{
+      setTimeout(() => {
         currentScreen.classList.remove('active','leaving');
         nextScreen.classList.add('active');
       }, 300);
@@ -690,136 +790,124 @@
     }
     current = index;
     updateDots(index);
-    if (index === 9) launchConfetti();
+    if (index === CLOSING) launchConfetti();
   }
   updateDots(0);
 
-  // Next / start buttons
   document.querySelectorAll('[data-next]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      goTo(current + 1);
-    });
+    btn.addEventListener('click', () => { startMusic(); goTo(current + 1); });
   });
 
-  // Taunt banks per screen
-  const taunts = {
-    1: ["Try again 👀","Still wrong.","Wrong button, try again.","We can do this all day.","...apparently forever."],
-    2: ["Suuuure.","Nope.","Not buying it.","Try harder.","This button quit."],
-    3: ["Wrong. Try again.","Meh isn't a real option.","That's rude, actually.","Nope.","Still not it."],
-    4: ["Nice try.","Doubt it.","Nope.","We both know that's false.","Stop lying."],
-    6: ["Not accepting that.","Try again.","Nope.","We need a real promise.","This button gave up."],
-    7: ["Absolutely not.","Wrong.","Keep trying.","This button is retired.","Yes is right there 👉"],
-    8: ["lol no.","Try again.","Not today.","👀","This button doesn't work anymore."]
+  /* ============ ANSWERS ============ */
+  const answers = {};   // idx -> text
+
+  const labels = {
+    1: "Enjoying our conversations",
+    2: "The photo",
+    3: "Our conversations so far",
+    4: "What matters most to me in someone I'm getting to know",
+    5: "What I'm most focused on right now",
+    6: "A goal I'm working toward this year",
+    7: "What I need most from the people in my life",
+    8: "Seeing anyone?",
+    9: "Friends or something more?",
+    10: "My terms and conditions"
   };
 
-  // Attach yes/no logic to each question screen
-  questionScreens.forEach(screen => {
+  /* ============ YES / NO (she is free to pick either) ============ */
+  screens.forEach(screen => {
     const idx = parseInt(screen.dataset.screen, 10);
     const yesBtn = screen.querySelector('[data-yes]');
-    const noBtn = screen.querySelector('[data-no]');
-    const zone = screen.querySelector('[data-zone]');
-    const row = screen.querySelector('[data-row]');
-    const replyEl = screen.querySelector('[data-reply]');
-    const arrow = screen.querySelector('[data-arrow]');
+    const noBtn  = screen.querySelector('[data-no]');
     if (!yesBtn || !noBtn) return;
 
-    let dodgeCount = 0;
-
-    function randomPositionWithin(zoneEl, btnEl){
-      const zRect = zoneEl.getBoundingClientRect();
-      const bw = btnEl.offsetWidth || 120;
-      const bh = btnEl.offsetHeight || 48;
-      const maxX = Math.max(zRect.width - bw - 8, 8);
-      const maxY = Math.max(zRect.height - bh - 8, 8);
-      const x = 8 + Math.random() * maxX;
-      const y = 8 + Math.random() * maxY;
-      return {x, y};
-    }
-
-    function dodge(evt){
-      if (evt) evt.preventDefault();
-      dodgeCount++;
-      if (!noBtn.classList.contains('roaming')){
-        noBtn.classList.add('roaming');
-        zone.style.minHeight = '190px';
-      }
-      const pos = randomPositionWithin(zone, noBtn);
-      noBtn.style.left = pos.x + 'px';
-      noBtn.style.top = pos.y + 'px';
-
-      const bank = taunts[idx] || ["Nope.","Try again.","Still no."];
-      replyEl.textContent = bank[Math.min(dodgeCount - 1, bank.length - 1)];
-
-      yesBtn.classList.remove('nudge');
-      void yesBtn.offsetWidth;
-      yesBtn.classList.add('nudge');
-
-      if (arrow){
-        const yRect = yesBtn.getBoundingClientRect();
-        const zRect = zone.getBoundingClientRect();
-        arrow.style.left = (yRect.left - zRect.left - 30) + 'px';
-        arrow.style.top = (yRect.top - zRect.top + yRect.height/2 - 12) + 'px';
-        arrow.classList.add('show');
-      }
-    }
-
-    noBtn.addEventListener('pointerdown', dodge, {passive:false});
-    noBtn.addEventListener('mouseenter', dodge);
-    noBtn.addEventListener('touchstart', dodge, {passive:false});
-    noBtn.addEventListener('click', (e)=> e.preventDefault());
-
-    yesBtn.addEventListener('click', () => {
-      replyEl.textContent = '';
-      goTo(idx + 1);
+    [yesBtn, noBtn].forEach(btn => {
+      btn.addEventListener('click', () => {
+        answers[idx] = btn.textContent.trim();
+        goTo(idx + 1);
+      });
     });
   });
 
-  // Q8: multiple choice closer
-  const mcReplies = {
-    interesting: "Interesting is a good start.",
-    funny: "Good — that means I did my job.",
-    weird: "Slightly weird is basically my whole brand.",
-    evidence: "Fair. The investigation continues."
-  };
-  const mcScreen = screens.find(s => parseInt(s.dataset.screen,10) === 8);
-  if (mcScreen){
-    const mcReply = mcScreen.querySelector('[data-reply]');
-    const mcButtons = mcScreen.querySelectorAll('.btn-mc');
-    mcButtons.forEach(btn => {
+  /* ============ MULTIPLE CHOICE SCREENS (4, 5, 7, 8, 9) ============ */
+  screens.forEach(screen => {
+    const mc = screen.querySelector('[data-mc]');
+    if (!mc) return;
+    const idx = parseInt(screen.dataset.screen, 10);
+    const replyEl = screen.querySelector('[data-reply]');
+    const buttons = mc.querySelectorAll('.btn-mc');
+
+    buttons.forEach(btn => {
       btn.addEventListener('click', () => {
-        mcButtons.forEach(b => { b.disabled = true; b.classList.remove('picked'); });
+        buttons.forEach(b => { b.disabled = true; b.classList.remove('picked'); });
         btn.classList.add('picked');
-        mcReply.textContent = mcReplies[btn.dataset.choice] || '';
+        answers[idx] = btn.textContent.trim();
+        replyEl.textContent = btn.dataset.r || '';
         setTimeout(() => {
-          goTo(9);
-          mcButtons.forEach(b => { b.disabled = false; b.classList.remove('picked'); });
-          mcReply.textContent = '';
-        }, 950);
+          goTo(idx + 1);
+          buttons.forEach(b => { b.disabled = false; b.classList.remove('picked'); });
+          replyEl.textContent = '';
+        }, 1000);
       });
     });
-  }
+  });
 
-  // Slider (Q5)
-  const slider = document.getElementById('menaceSlider');
+  /* ============ SLIDER (Q3) ============ */
+  const slider = document.getElementById('rateSlider');
   const sliderValue = document.getElementById('sliderValue');
   const sliderFace = document.getElementById('sliderFace');
   const faces = {
-    1:"Harmless. Suspiciously so.", 2:"Barely a threat.", 3:"Mild mischief only.",
-    4:"A little unpredictable.", 5:"Undecided energy.", 6:"Getting spicy.",
-    7:"Certified wildcard.", 8:"High risk, high reward.", 9:"Actively dangerous.",
-    10:"Certified chaos 😈"
+    1:"Forgettable.", 2:"Not great.", 3:"Meh.", 4:"Below average.", 5:"Okay.",
+    6:"Decent.", 7:"Pretty good.", 8:"Really enjoyable.", 9:"Great.", 10:"Really good 🔥"
   };
-  if (slider){
-    slider.addEventListener('input', () => {
-      sliderValue.textContent = slider.value;
-      sliderFace.textContent = faces[slider.value] || '';
-    });
+  slider.addEventListener('input', () => {
+    sliderValue.textContent = slider.value;
+    sliderFace.textContent = faces[slider.value] || '';
+  });
+  document.getElementById('lockBtn').addEventListener('click', () => {
+    answers[3] = slider.value + "/10";
+    goTo(4);
+  });
+
+  /* ============ GOAL TEXT (Q6) ============ */
+  document.getElementById('goalBtn').addEventListener('click', () => {
+    const g = (document.getElementById('goalText').value || '').trim();
+    if (g) answers[6] = g;
+    goTo(7);
+  });
+
+  /* ============ TERMS & CONDITIONS + WHATSAPP ============ */
+  const tcText = document.getElementById('tcText');
+  const tcCount = document.getElementById('tcCount');
+  const waLink = document.getElementById('waLink');
+  tcText.addEventListener('input', () => { tcCount.textContent = tcText.value.length; });
+
+  function buildMessage(){
+    const lines = [];
+    lines.push("Hey Abednego 👋 Here are my answers from your \"So… Nic\" questions:");
+    lines.push("");
+    for (let i = 1; i <= 9; i++){
+      let line = i + ". " + labels[i] + ": " + (answers[i] || "(skipped)");
+      lines.push(line);
+    }
+    const tc = (tcText.value || "").trim();
+    lines.push("");
+    lines.push("10. " + labels[10] + ":");
+    lines.push(tc ? tc : "(left blank)");
+    return lines.join("\n");
   }
 
-  // Confetti burst for closing screen
+  document.getElementById('sendBtn').addEventListener('click', () => {
+    const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildMessage());
+    waLink.href = url;
+    goTo(CLOSING);
+    window.open(url, '_blank');
+  });
+
+  /* ============ CONFETTI ============ */
   function launchConfetti(){
     const colors = ['#FFD166','#FF6F91','#7DE2D1','#F6F1FF'];
-    for (let i=0; i<60; i++){
+    for (let i = 0; i < 60; i++){
       const piece = document.createElement('div');
       piece.className = 'confetti-piece';
       const size = 6 + Math.random()*6;
@@ -828,24 +916,23 @@
       piece.style.background = colors[Math.floor(Math.random()*colors.length)];
       piece.style.left = Math.random()*100 + 'vw';
       const duration = 2.6 + Math.random()*1.8;
-      const rotate = Math.random()*360;
-      piece.style.transform = `rotate(${rotate}deg)`;
+      piece.style.transform = `rotate(${Math.random()*360}deg)`;
       piece.style.animation = `confettiFall ${duration}s ease-in forwards`;
       document.body.appendChild(piece);
-      setTimeout(()=> piece.remove(), duration*1000 + 200);
+      setTimeout(() => piece.remove(), duration*1000 + 200);
     }
   }
   const styleTag = document.createElement('style');
   styleTag.textContent = `@keyframes confettiFall{ to{ transform: translateY(105vh) rotate(720deg); opacity:0.9; } }`;
   document.head.appendChild(styleTag);
 
-  // subtle parallax on landing photo (desktop only)
-  const poloroids = document.querySelectorAll('.polaroid');
+  /* ============ subtle parallax on photos (desktop only) ============ */
+  const polaroids = document.querySelectorAll('.polaroid');
   window.addEventListener('mousemove', (e) => {
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     const dx = (e.clientX - cx) / cx;
     const dy = (e.clientY - cy) / cy;
-    poloroids.forEach(p => {
+    polaroids.forEach(p => {
       const base = p.classList.contains('tilt-right') ? 5 : -6;
       p.style.transform = `rotate(${base + dx*3}deg) translate(${dx*4}px, ${dy*4}px)`;
     });
